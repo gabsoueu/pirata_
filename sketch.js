@@ -25,7 +25,7 @@ function setup() {
   canvas = createCanvas(1200, 600); //tela
   engine = Engine.create(); //cria o mecanismo de física
   world = engine.world; //cria o nosso mundo
-  canhão = new Cannon (100, 20, 200, 200, angulo);
+  canhão = new Cannon (190, 170, 200, 200, angulo);
   bola = new CannonBall(canhão.x,canhão.y);
 
  options=
@@ -62,10 +62,15 @@ function draw() {
   image(towerImg,tower.position.x, tower.position.y,160,310);
   pop();
   
+  //mostrar a bola
+  bola.show();
+
   //mostrar o canhão
-   canhão.showTime();
+  canhão.showTime();
+}
 
-   //mostrar a bola
-   bola.show();
-
+function keyReleased () {
+  if (keyCode === DOWN_ARROW) {
+    bola.atirar ();
+  }
 }

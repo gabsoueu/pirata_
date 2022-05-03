@@ -18,4 +18,8 @@ class CannonBall
         pop();
     }
 
+    atirar(){
+        Matter.Body.setStatic (this.body,false);
+        Matter.Body.setVelocity (this.body, {x:20, y:-18});
+    }
 }

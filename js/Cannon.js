@@ -13,7 +13,18 @@ class Cannon
 
     //métodos ou funções
     showTime () {
-        image(this.topo,this.x, this.y,this.w,this.h) // topo/parte movel do canhão
+        if (keyIsDown (RIGHT_ARROW) && this.a<40) {
+            this.a += 1
+        }
+        if (keyIsDown (LEFT_ARROW) && this.a>-40) {
+            this.a -= 1
+        }
+        push ();
+        translate (this.x, this.y);
+        rotate (this.a);
+        imageMode (CENTER);
+        image(this.topo,0, 0,this.w,this.h) // topo/parte movel do canhão
+        pop ();
         push();
         imageMode (CENTER);
         image(this.base,170,130,200,200) // base/parte fixa do canhão
