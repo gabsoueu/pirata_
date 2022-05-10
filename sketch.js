@@ -8,16 +8,17 @@ var engine, world; //meu mecanismo, meu mundo
 var backgroundImg, towerImg; //variáveis das imagens
 var ground, tower; //variáveis dos corpos
 var canhão, angulo = 0;
-var bola;
+var bola, bolas = [];
 
 
 function preload() 
 {
-    backgroundImg = loadImage("assets/background.gif");
-    towerImg = loadImage("assets/tower.png");
+  backgroundImg = loadImage("assets/background.gif");
+  towerImg = loadImage("assets/tower.png");
 
  
 }
+
 function setup() {
 
   angleMode(DEGREES);
@@ -26,7 +27,6 @@ function setup() {
   engine = Engine.create(); //cria o mecanismo de física
   world = engine.world; //cria o nosso mundo
   canhão = new Cannon (190, 170, 200, 200, angulo);
-  bola = new CannonBall(canhão.x,canhão.y);
 
  options=
   {
@@ -61,12 +61,27 @@ function draw() {
   imageMode(CENTER);
   image(towerImg,tower.position.x, tower.position.y,160,310);
   pop();
+  for (var i = 0; i < bolas.length; i = i+1) {
+    showBalls (bolas [i],i)
+  }
   
+  //mostrar o canhão
+  canhão.showTime();
+}
+
+function keyPressed () {
+  if (keyCode === DOWN_ARROW) {
+   bola = new CannonBall(canhão.x,canhão.y);
+   bolas.push (bola);
+  }
+}
+
+function showBalls (b,i) {
+  if (b) {
   //mostrar a bola
   bola.show();
 
-  //mostrar o canhão
-  canhão.showTime();
+  }
 }
 
 function keyReleased () {
