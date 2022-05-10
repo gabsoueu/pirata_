@@ -9,6 +9,7 @@ var backgroundImg, towerImg; //variáveis das imagens
 var ground, tower; //variáveis dos corpos
 var canhão, angulo = 0;
 var bola, bolas = [];
+var barco;
 
 
 function preload() 
@@ -42,6 +43,9 @@ function setup() {
    tower = Bodies.rectangle(160,350,160,310,options);
    //adição do corpo ao mundo
    World.add(world,tower);
+
+   //criando o objeto barco a partir da classe
+   barco = new Boat(width-80,height-60,170,170,-80);
  
 }
 
@@ -67,6 +71,15 @@ function draw() {
   
   //mostrar o canhão
   canhão.showTime();
+
+  //dar velocidade para o barco
+  Matter.Body.setVelocity(barco.body,{
+    x: -3,
+    y: 0
+  });
+
+  //mostrar o barco
+  barco.show();
 }
 
 function keyPressed () {
