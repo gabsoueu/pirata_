@@ -9,7 +9,7 @@ var backgroundImg, towerImg; //variáveis das imagens
 var ground, tower; //variáveis dos corpos
 var canhão, angulo = 0;
 var bola, bolas = [];
-var barco;
+var barco, barcos = [];
 
 
 function preload() 
@@ -44,8 +44,7 @@ function setup() {
    //adição do corpo ao mundo
    World.add(world,tower);
 
-   //criando o objeto barco a partir da classe
-   barco = new Boat(width-80,height-60,170,170,-80);
+   
  
 }
 
@@ -72,14 +71,8 @@ function draw() {
   //mostrar o canhão
   canhão.showTime();
 
-  //dar velocidade para o barco
-  Matter.Body.setVelocity(barco.body,{
-    x: -3,
-    y: 0
-  });
-
-  //mostrar o barco
-  barco.show();
+  showBarcos ();
+  
 }
 
 function keyPressed () {
@@ -91,8 +84,8 @@ function keyPressed () {
 
 function showBalls (b,i) {
   if (b) {
-  //mostrar a bola
-  bola.show();
+   //mostrar a bola
+   bola.show();
 
   }
 }
@@ -100,5 +93,34 @@ function showBalls (b,i) {
 function keyReleased () {
   if (keyCode === DOWN_ARROW) {
     bola.atirar ();
+  }
+}
+
+function showBarcos () {
+  if (barcos.length > 0) {
+    if (barcos [barcos.length -1] === undefined || barcos[barcos.length -1].body.position.x < width-300 ) {
+      var posit = [-80, -90, -75, -50];
+      var positC = random (posit)
+      barco = new Boat(width-80,height-60,170,170,positC);
+      barcos.push (barco);
+    }
+    for (var i = 0; i < barcos.length; i = i+1) {
+      if (barcos [i]) {
+        //dar velocidade para o barco
+        Matter.Body.setVelocity(barco.body,{
+        x: -3,
+        y: 0
+        });
+
+        //mostrar o barco
+        barcos[i].show();
+      }
+    }
+  }
+
+ else {
+   //criando o objeto barco a partir da classe
+   barco = new Boat(width-80,height-60,170,170,-80);
+   barcos.push (barco);
   }
 }
