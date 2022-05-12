@@ -18,4 +18,11 @@ class Boat
         image(this.image,0,this.posY,this.w, this.h);
         pop();
     }
+
+    remove (i){
+        setTimeout(() => {
+            Matter.World.remove(world, barcos[i].body);
+            delete barcos[i];
+        }, 500);
+    }
 }

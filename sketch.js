@@ -83,11 +83,13 @@ function keyPressed () {
   }
 }
 
-function showBalls (b,i) {
-  if (b) {
-   //mostrar a bola
-   bola.show();
-
+function showBalls (bola,i) {
+  if (bola) {
+    //mostrar a bola
+    bola.show();
+    if (bola.body.position.y > height-50 || bola.body.position.x > width ) {
+      bola.remove (i)
+    }
   }
 }
 
@@ -133,6 +135,8 @@ function collisionWithBoat(index){
       var collision = Matter.SAT.collides(bolas[index].body, barcos[i].body);
 
       if(collision.collided){
+        barcos[i].remove (i);
+        //bolas[index].remove (index);
         Matter.World.remove(world, bolas[index].body);
         delete bolas[index];
       }
