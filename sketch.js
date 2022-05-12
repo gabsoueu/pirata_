@@ -66,6 +66,7 @@ function draw() {
   pop();
   for (var i = 0; i < bolas.length; i = i+1) {
     showBalls (bolas [i],i)
+    collisionWithBoat(i);
   }
   
   //mostrar o canhão
@@ -98,7 +99,7 @@ function keyReleased () {
 
 function showBarcos () {
   if (barcos.length > 0) {
-    if (barcos [barcos.length -1] === undefined || barcos[barcos.length -1].body.position.x < width-300 ) {
+    if (barcos [barcos.length -1] === undefined || barcos[barcos.length -1].body.position.x < width-500 ) {
       var posit = [-80, -90, -75, -50];
       var positC = random (posit)
       barco = new Boat(width-80,height-60,170,170,positC);
@@ -108,7 +109,7 @@ function showBarcos () {
       if (barcos [i]) {
         //dar velocidade para o barco
         Matter.Body.setVelocity(barco.body,{
-        x: -3,
+        x: -1,
         y: 0
         });
 
@@ -122,5 +123,20 @@ function showBarcos () {
    //criando o objeto barco a partir da classe
    barco = new Boat(width-80,height-60,170,170,-80);
    barcos.push (barco);
+  }
+}
+
+function collisionWithBoat(index){
+  for(var i=0; i<barcos.length; i+=1)
+  {
+    if(bolas[index] != undefined && barcos[i] != undefined){
+      var collision = Matter.SAT.collides(bolas[index].body, barcos[i].body);
+
+      if(collision.collided){
+        Matter.World.remove(world, bolas[index].body);
+        delete bolas[index];
+      }
+
+    }
   }
 }
