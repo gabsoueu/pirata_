@@ -10,6 +10,7 @@ class Boat
         this.h = h;
         this.speed = 0.05;
         this.animation = boatAnimation;
+        this.isBroken = false;
     }
 
     animate(){
@@ -28,9 +29,14 @@ class Boat
     }
 
     remove (i){
+        this.animation = brokenBoat;
+        this.speed = 0.8;
+        this.w = 300;
+        this.h = 300;
+        this.isBroken = true;
         setTimeout(() => {
             Matter.World.remove(world, barcos[i].body);
             delete barcos[i];
-        }, 500);
+        }, 2000);
     }
 }

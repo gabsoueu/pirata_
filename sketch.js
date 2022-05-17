@@ -14,6 +14,9 @@ var barco, barcos = [];
 var boatAnimation = [];
 var boatPNG, boatJSON;
 
+var brokenBoat = [];
+var brokenPNG, brokenJSON;
+
 
 function preload() 
 {
@@ -21,6 +24,8 @@ function preload()
   towerImg = loadImage("assets/tower.png");
   boatJSON = loadJSON("assets/boat/boat.json");
   boatPNG = loadImage("assets/boat/boat.png");
+  brokenPNG = loadImage("assets/boat/brokenBoat.png");
+  brokenJSON = loadJSON("assets/boat/brokenBoat.json");
 }
 
 function setup() {
@@ -54,10 +59,17 @@ function setup() {
      var img = boatPNG.get(pos.x,pos.y,pos.w,pos.h);
      boatAnimation.push(img);
    }
-
+    //animação do barco inteiro
+    var brokenFrames = brokenJSON.frames;
+    for(var i=0; i<brokenFrames.length; i++){
+      var pos = brokenFrames[i].position;
+      var img = brokenPNG.get(pos.x,pos.y,pos.w,pos.h);
+      brokenBoat.push(img);
+   }
+}
    
  
-}
+
 
 function draw() {
 
