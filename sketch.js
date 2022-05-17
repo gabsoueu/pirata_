@@ -11,13 +11,16 @@ var canhão, angulo = 0;
 var bola, bolas = [];
 var barco, barcos = [];
 
+var boatAnimation = [];
+var boatPNG, boatJSON;
+
 
 function preload() 
 {
   backgroundImg = loadImage("assets/background.gif");
   towerImg = loadImage("assets/tower.png");
-
- 
+  boatJSON = loadJSON("assets/boat/boat.json");
+  boatPNG = loadImage("assets/boat/boat.png");
 }
 
 function setup() {
@@ -43,6 +46,14 @@ function setup() {
    tower = Bodies.rectangle(160,350,160,310,options);
    //adição do corpo ao mundo
    World.add(world,tower);
+
+   //animação do barco inteiro
+   var boatFrames = boatJSON.frames;
+   for(var i=0; i<boatFrames.length; i++){
+     var pos = boatFrames[i].position;
+     var img = boatPNG.get(pos.x,pos.y,pos.w,pos.h);
+     boatAnimation.push(img);
+   }
 
    
  
@@ -104,7 +115,7 @@ function showBarcos () {
     if (barcos [barcos.length -1] === undefined || barcos[barcos.length -1].body.position.x < width-500 ) {
       var posit = [-80, -90, -75, -50];
       var positC = random (posit)
-      barco = new Boat(width-80,height-60,170,170,positC);
+      barco = new Boat(width-80,height-60,170,170,positC,boatAnimation);
       barcos.push (barco);
     }
     for (var i = 0; i < barcos.length; i = i+1) {
@@ -117,13 +128,15 @@ function showBarcos () {
 
         //mostrar o barco
         barcos[i].show();
+        //animação do barco
+        barcos[i].animate();
       }
     }
   }
 
  else {
    //criando o objeto barco a partir da classe
-   barco = new Boat(width-80,height-60,170,170,-80);
+   barco = new Boat(width-80,height-60,170,170,-80,boatAnimation);
    barcos.push (barco);
   }
 }
