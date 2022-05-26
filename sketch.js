@@ -18,6 +18,9 @@ var boatPNG, boatJSON;
 var brokenBoat = [];
 var brokenPNG, brokenJSON;
 
+var waterSplash = [];
+var waterSplashPNG, waterSplashJSON;
+
 var isGameOver = false;
 var isLaughing = false;
 
@@ -34,6 +37,8 @@ function preload()
   cannonExplosion = loadSound("assets/cannon_explosion.mp3");
   cannonWater = loadSound("assets/cannon_water.mp3");
   pirateLaugh = loadSound("assets/pirate_laugh.mp3");
+  waterSplashJSON = loadJSON("assets/waterSplash/waterSplash.json");
+  waterSplashPNG = loadImage("assets/waterSplash/waterSplash.png");
 }
 
 function setup() {
@@ -74,6 +79,14 @@ function setup() {
       var img = brokenPNG.get(pos.x,pos.y,pos.w,pos.h);
       brokenBoat.push(img);
    }
+
+   //animação da bola caindo na água
+   var waterSplashFrames = waterSplashJSON.frames;
+   for(var i=0; i<waterSplashFrames.length; i++){
+     var pos = waterSplashFrames[i].position;
+     var img = waterSplashPNG.get(pos.x,pos.y,pos.w,pos.h);
+     waterSplash.push(img);
+  }
 }
    
 
@@ -123,8 +136,9 @@ function showBalls (bola,i) {
   if (bola) {
     //mostrar a bola
     bola.show();
-    if (bola.body.position.y > height-50 || bola.body.position.x > width ) {
-      bola.remove (i)
+    if (bola.body.position.y > height-50 || bola.body.position.x > width + 100 ) {
+      cannonWater.play();
+      bola.remove (i);
     }
   }
 }

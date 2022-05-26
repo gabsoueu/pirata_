@@ -9,13 +9,22 @@ class CannonBall
         World.add(world, this.body);
         this.image = loadImage("assets/cannonball.png");
         this.trajeto = [];
+        this.speed = 0.05;
+        this.animation = [this.image];
+        this.isSink = false;
+    }
+
+    animate(){
+        this.speed +=0.05;
     }
 
     show(){
         var pos = this.body.position;
+        var index = floor(this.speed % this.animation.length);
+
         push();
         imageMode(CENTER);
-        image(this.image,pos.x,pos.y,this.r,this.r);
+        image(this.animation[index],pos.x,pos.y,this.r,this.r);
         pop();
         if (this.body.velocity.x > 0 && pos.x > 170) {
             var posit = [pos.x, pos.y];
@@ -36,6 +45,11 @@ class CannonBall
     }
 
     remove(i){
+        this.isSink = true;
+        Matter.Body.setVelocity(this.body, {x:0,y:0});
+        this.animation = waterSplash;
+        this.speed = 0.05;
+        this.r = 100;
         setTimeout(() => {
             Matter.World.remove(world, bolas[i].body);
             delete bolas[i];
