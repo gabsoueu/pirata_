@@ -10,6 +10,7 @@ var ground, tower; //variáveis dos corpos
 var canhão, angulo = 0;
 var bola, bolas = [];
 var barco, barcos = [];
+var backgroundmp3, cannonExplosion, cannonWater, pirateLaugh;
 
 var boatAnimation = [];
 var boatPNG, boatJSON;
@@ -18,6 +19,7 @@ var brokenBoat = [];
 var brokenPNG, brokenJSON;
 
 var isGameOver = false;
+var isLaughing = false;
 
 
 function preload() 
@@ -28,6 +30,10 @@ function preload()
   boatPNG = loadImage("assets/boat/boat.png");
   brokenPNG = loadImage("assets/boat/brokenBoat.png");
   brokenJSON = loadJSON("assets/boat/brokenBoat.json");
+  backgroundmp3 = loadSound("assets/background_music.mp3");
+  cannonExplosion = loadSound("assets/cannon_explosion.mp3");
+  cannonWater = loadSound("assets/cannon_water.mp3");
+  pirateLaugh = loadSound("assets/pirate_laugh.mp3");
 }
 
 function setup() {
@@ -70,13 +76,18 @@ function setup() {
    }
 }
    
- 
 
 
 function draw() {
 
   //background(189);
   image(backgroundImg,0,0,1200,600);
+
+  //background(son);
+  if (!backgroundmp3.isPlaying()) {
+    backgroundmp3.play();
+    backgroundmp3.setVolume(0.1);
+  }
 
   //atualização do mecanismo de física
   Engine.update(engine);
@@ -121,6 +132,8 @@ function showBalls (bola,i) {
 function keyReleased () {
   if (keyCode === DOWN_ARROW) {
     bola.atirar ();
+    cannonExplosion.play();
+    cannonExplosion.setVolume(0.1);
   }
 }
 
@@ -146,6 +159,10 @@ function showBarcos () {
         barcos[i].animate();
         var collision = Matter.SAT.collides(tower,barcos[i].body);
         if(collision.collided && !barcos[i].isBroken){
+          if (!isLaughing && !pirateLaugh.isPlaying()) {
+            pirateLaugh.play();
+            isLaughing = true;
+          }
           gameOver();
           isGameOver = true;
         }
